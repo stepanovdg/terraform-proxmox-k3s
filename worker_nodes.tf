@@ -29,6 +29,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
   ]
 
   for_each = local.mapped_worker_nodes
+  define_connection_info = true
 
   target_node = var.proxmox_node
   name        = "${var.cluster_name}-${each.key}"
@@ -84,7 +85,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
   connection {
     type = "ssh"
     user = each.value.user
-    host = each.value.ip
+    host = self.ssh_host
     private_key = file(var.ssh_key)
   }
 

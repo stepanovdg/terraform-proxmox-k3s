@@ -17,6 +17,8 @@ resource "proxmox_vm_qemu" "k3s-support" {
 
   pool = var.proxmox_resource_pool
 
+  define_connection_info = true
+
   # cores = 2
   cores   = var.support_node_settings.cores
   sockets = var.support_node_settings.sockets
@@ -115,7 +117,7 @@ resource "null_resource" "k3s_nginx_config" {
   connection {
     type = "ssh"
     user = var.support_node_settings.user
-    host = local.support_node_ip
+    host = proxmox_vm_qemu.k3s-support.ssh_host
   }
 
   provisioner "file" {

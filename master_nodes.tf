@@ -22,6 +22,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
   name        = "${var.cluster_name}-master-${count.index}"
 
   clone = var.node_template
+  define_connection_info = true
 
   pool = var.proxmox_resource_pool
 
@@ -72,7 +73,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
   connection {
     type = "ssh"
     user = var.master_node_settings.user
-    host = local.master_node_ips[count.index]
+    host = self.ssh_host
     private_key = file(var.ssh_key)
   }
 
