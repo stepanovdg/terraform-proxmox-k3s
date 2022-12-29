@@ -40,7 +40,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
 
   network {
     bridge    = var.master_node_settings.network_bridge
-    firewall  = true
+    firewall  = false
     link_down = false
     macaddr   = upper(macaddress.k3s-masters[count.index].address)
     model     = "virtio"
@@ -61,6 +61,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
   os_type = "cloud-init"
 
   ciuser = var.master_node_settings.user
+  cipassword = var.master_node_settings.password
 
   ipconfig0 = "ip=${local.master_node_ips[count.index]}/${local.lan_subnet_cidr_bitnum},gw=${var.network_gateway}"
 
@@ -72,6 +73,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
     type = "ssh"
     user = var.master_node_settings.user
     host = local.master_node_ips[count.index]
+    private_key = file(var.ssh_key)
   }
 
   provisioner "remote-exec" {

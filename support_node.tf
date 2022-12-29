@@ -32,7 +32,7 @@ resource "proxmox_vm_qemu" "k3s-support" {
 
   network {
     bridge    = var.support_node_settings.network_bridge
-    firewall  = true
+    firewall  = false
     link_down = false
     macaddr   = upper(macaddress.k3s-support.address)
     model     = "virtio"
@@ -53,6 +53,7 @@ resource "proxmox_vm_qemu" "k3s-support" {
   os_type = "cloud-init"
 
   ciuser = var.support_node_settings.user
+  cipassword = var.support_node_settings.password
 
   ipconfig0 = "ip=${local.support_node_ip}/${local.lan_subnet_cidr_bitnum},gw=${var.network_gateway}"
 
@@ -64,6 +65,7 @@ resource "proxmox_vm_qemu" "k3s-support" {
     type = "ssh"
     user = var.support_node_settings.user
     host = local.support_node_ip
+    private_key = file(var.ssh_key)
   }
 
   provisioner "file" {

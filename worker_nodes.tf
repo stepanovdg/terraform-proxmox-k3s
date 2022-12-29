@@ -52,7 +52,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
 
   network {
     bridge    = each.value.network_bridge
-    firewall  = true
+    firewall  = false
     link_down = false
     macaddr   = upper(macaddress.k3s-workers[each.key].address)
     model     = "virtio"
@@ -73,6 +73,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
   os_type = "cloud-init"
 
   ciuser = each.value.user
+  cipassword = each.value.password
 
   ipconfig0 = "ip=${each.value.ip}/${local.lan_subnet_cidr_bitnum},gw=${var.network_gateway}"
 
@@ -84,6 +85,7 @@ resource "proxmox_vm_qemu" "k3s-worker" {
     type = "ssh"
     user = each.value.user
     host = each.value.ip
+    private_key = file(var.ssh_key)
   }
 
   provisioner "remote-exec" {

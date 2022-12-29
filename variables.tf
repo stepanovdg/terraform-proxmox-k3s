@@ -69,6 +69,7 @@ variable "support_node_settings" {
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
     user           = optional(string, "k3s"),
+    password           = optional(string, "k3s"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
     db_name        = optional(string, "k3s"),
@@ -93,6 +94,7 @@ variable "master_node_settings" {
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
     user           = optional(string, "k3s"),
+    password           = optional(string, "k3s"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
   })
@@ -115,6 +117,7 @@ variable "node_pools" {
     storage_id     = optional(string, "local-lvm"),
     disk_size      = optional(string, "20G"),
     user           = optional(string, "k3s"),
+    password           = optional(string, "k3s"),
     network_bridge = optional(string, "vmbr0"),
     network_tag    = optional(number, -1),
     template = optional(string)
@@ -143,4 +146,10 @@ variable "nameserver" {
   default     = ""
   type        = string
   description = "nameserver"
+}
+
+variable "ssh_key" {
+  default     = ""
+  type        = string
+  description = "ssh_key"
 }
