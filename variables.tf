@@ -73,6 +73,8 @@ variable "support_node_settings" {
     network_tag    = optional(number, -1),
     db_name        = optional(string, "k3s"),
     db_user        = optional(string, "k3s"),
+    db_host        = optional(string, "k3s"),
+    db_password    = optional(string, "k3s"),
   })
 }
 

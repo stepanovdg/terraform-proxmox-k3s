@@ -84,10 +84,10 @@ resource "proxmox_vm_qemu" "k3s-master" {
         node_taints  = ["CriticalAddonsOnly=true:NoExecute"]
         disable      = var.k3s_disable_components
         datastores = [{
-          host     = "${local.support_node_ip}:3306"
-          name     = "k3s"
-          user     = "k3s"
-          password = random_password.k3s-master-db-password.result
+          host     = var.support_node_settings.db_host
+          name     = var.support_node_settings.db_name
+          user     = var.support_node_settings.db_user
+          password = var.support_node_settings.db_password
         }]
 
         http_proxy  = var.http_proxy
@@ -98,7 +98,7 @@ resource "proxmox_vm_qemu" "k3s-master" {
 
 data "external" "kubeconfig" {
   depends_on = [
-    local_file.k3s_nginx_config,
+    proxmox_vm_qemu.k3s-support,
     proxmox_vm_qemu.k3s-master
   ]
 

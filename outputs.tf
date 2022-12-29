@@ -1,19 +1,19 @@
 
 output "k3s_db_password" {
-  value     = random_password.k3s-master-db-password.result
+  value     = var.support_node_settings.db_password
   sensitive = true
 }
 
 output "k3s_db_name" {
-  value = local.support_node_settings.db_name
+  value = var.support_node_settings.db_name
 }
 
 output "k3s_db_user" {
-  value = local.support_node_settings.db_user
+  value = var.support_node_settings.db_user
 }
 
 output "k3s_db_host" {
-  value = "${local.support_node_ip}:3306"
+  value = var.support_node_settings.db_host
 }
 
 output "root_db_password" {
@@ -26,7 +26,7 @@ output "support_node_ip" {
 }
 
 output "support_node_user" {
-  value = local.support_node_settings.user
+  value = var.support_node_settings.user
 }
 
 output "master_node_ips" {

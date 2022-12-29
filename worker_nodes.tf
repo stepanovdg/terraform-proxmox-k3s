@@ -24,7 +24,7 @@ locals {
 
 resource "proxmox_vm_qemu" "k3s-worker" {
   depends_on = [
-    local_file.k3s_nginx_config,
+    proxmox_vm_qemu.k3s-support,
     proxmox_vm_qemu.k3s-master,
   ]
 
