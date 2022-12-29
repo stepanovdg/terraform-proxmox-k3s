@@ -20,6 +20,7 @@ curl -sfL https://get.k3s.io | sh -s - ${mode} \
 --node-taint "${ taint }" \
 %{ endfor ~}
 %{ for db in datastores ~}
---datastore-endpoint="mysql://${db.user}:${db.password}@tcp(${db.host})/${db.name}" \
+--datastore-endpoint="postgresql://${db.user}:${db.password}@${db.host}/${db.name}?sslmode=disable" \
 %{ endfor ~}
+--write-kubeconfig-mode "0644" \
 --log $HOME/.k3s-install-log.txt
